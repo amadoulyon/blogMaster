@@ -8,14 +8,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 
-class BlogContollerController extends AbstractController
+class BlogController extends AbstractController
 {
     /**
      * @Route("/", name="index")
      */
-    public function index()
+    public function index():Response
     {
-        return new Response('<h1>Page d\'accueil du blog </h1>');
+        return $this->render('blog/index.html.twig');
     }
 
     /**
@@ -23,15 +23,15 @@ class BlogContollerController extends AbstractController
      */
      public function add()
     {
-    	return new Response('<h1>Ajouter un article</h1>');
+    	return $this->render('blog/add.html.twig');
     }
 
     /**
      * @Route("/show/{url}", name="show")
      */
-    public function show($url)
+    public function show($url):Response
     {
-    	return new Response('<h1>Lire l\'article ' .$url. '</h1>');
+    	return $this->render('blog/show.html.twig',[ 'slug' => $url]);
     }
 
     /**
@@ -39,10 +39,12 @@ class BlogContollerController extends AbstractController
      */
     public function edit($id)
     {
-    	return new Response('<h1>Modifier l\'article ' .$id. '</h1>');
+        return $this->render('blog/edit.html.twig',[ 'id' => $id]);
     }
 
-    
+    /**
+     * @Route("/remove/{id}", name="remove")
+     */
     public function remove($id)
     {
     	return new Response('<h1>Supprimer l\'article ' .$id. '</h1>');
