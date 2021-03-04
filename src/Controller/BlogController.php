@@ -13,9 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
 {
-    /**
-     * @Route("/", name="index")
-     */
+    
     public function index():Response
     {
         $articles = $this->getDoctrine()->getRepository(Article::class)->findBy(
@@ -23,14 +21,12 @@ class BlogController extends AbstractController
             ['publicationDate' => 'desc']
         );
 
-        return $this->render('blog/index.html.twig', ['articles' => $articles]);
-   
+        return $this-> render('blog/index.html.twig',['articles'=>$articles]);
+    
     }
 
-    /**
-     * @Route("/add", name="add")
-     */
-     public function add(Request $request)
+   
+    public function add(Request $request)
     {
     	$article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -79,17 +75,13 @@ class BlogController extends AbstractController
             'form' => $form->createView()]);
     }
 
-    /**
-     * @Route("/show/{url}", name="article_show")
-     */
-    public function show($url):Response
+    
+    public function show(Article $article):Response
     {
-    	return $this->render('blog/show.html.twig',[ 'slug' => $url]);
+    	return $this->render('blog/show.html.twig',[ 'article' => $article]);
     }
 
-    /**
-     * @Route("/edit/{id}", name="edit")
-     */
+ 
     public function edit(Article $article, Request $request)
     {
        $oldPicture = $article->getPicture();
@@ -136,9 +128,6 @@ class BlogController extends AbstractController
     
     }
 
-    /**
-     * @Route("/remove/{id}", name="remove")
-     */
     public function remove($id)
     {
     	return new Response('<h1>Supprimer l\'article ' .$id. '</h1>');
